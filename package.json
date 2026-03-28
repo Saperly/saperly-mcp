@@ -1,0 +1,31 @@
+{
+  "name": "@saperly/mcp",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "saperly-mcp": "dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist", "SKILL.md"],
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.28.0",
+    "@saperly/sdk": "^0.1.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "vitest": "^4.1.1"
+  }
+}
