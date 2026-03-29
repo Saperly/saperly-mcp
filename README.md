@@ -1,6 +1,6 @@
 # @saperly/mcp
 
-MCP server for [Saperly](https://saperly.com) — the phone carrier for AI agents. 16 tools that let any MCP-compatible client provision phone lines, make calls, manage consent, and query compliance.
+MCP server for [Saperly](https://saperly.com) — the phone carrier for AI agents. 17 tools that let any MCP-compatible client provision phone lines, make calls, send SMS, manage consent, and query compliance.
 
 ## Install
 
@@ -47,6 +47,7 @@ export SAPERLY_API_KEY=sk_live_...
 | `saperly_list_lines` | List all lines |
 | `saperly_get_line` | Get line details |
 | `saperly_delete_line` | Release a phone line |
+| `saperly_send_sms` | Send SMS from a line |
 | `saperly_create_call` | Make an outbound call |
 | `saperly_list_calls` | List recent calls |
 | `saperly_get_call` | Get call details |

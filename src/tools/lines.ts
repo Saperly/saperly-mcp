@@ -108,4 +108,27 @@ export function registerLinesTools(server: McpServer, client: Saperly) {
       }
     },
   );
+
+  server.tool(
+    "saperly_send_sms",
+    "send an sms from a phone line. consent must be granted first (use saperly_grant_consent). costs $0.01 per message.",
+    {
+      lineId: z.string().describe("line id to send from"),
+      toNumber: z.string().describe("destination phone number in E.164 format (e.g. +14155551234)"),
+      message: z.string().max(1600).describe("message text (max 1600 chars)"),
+    },
+    async (args) => {
+      try {
+        const sms = await client.lines.sendSms(args.lineId, {
+          toNumber: args.toNumber,
+          message: args.message,
+        });
+        return toolResult(
+          `sms sent!\n\nid: ${sms.id}\nfrom: ${sms.fromNumber}\nto: ${sms.toNumber}\nstatus: ${sms.status}`,
+        );
+      } catch (err) {
+        return toolError(err);
+      }
+    },
+  );
 }

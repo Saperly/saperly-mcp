@@ -16,6 +16,7 @@ function createMockClient() {
       list: vi.fn(),
       get: vi.fn(),
       delete: vi.fn(),
+      sendSms: vi.fn(),
     },
   } as unknown as Saperly;
 }
@@ -143,6 +144,28 @@ describe("lines tools", () => {
     const result = await tools["saperly_delete_line"]({ lineId: "line-1" });
 
     expect(result.content[0].text).toContain("released");
+    expect(result.content[0].text).toContain("+14155550123");
+    expect(result.isError).toBeUndefined();
+  });
+
+  it("saperly_send_sms returns formatted result on success", async () => {
+    vi.mocked(client.lines.sendSms).mockResolvedValueOnce({
+      id: "SM_test_123",
+      fromNumber: "+14155550123",
+      toNumber: "+14155551234",
+      message: "hello from saperly",
+      status: "sent",
+      createdAt: "2026-03-29T00:00:00Z",
+    });
+
+    const result = await tools["saperly_send_sms"]({
+      lineId: "line-1",
+      toNumber: "+14155551234",
+      message: "hello from saperly",
+    });
+
+    expect(result.content[0].text).toContain("sms sent!");
+    expect(result.content[0].text).toContain("SM_test_123");
     expect(result.content[0].text).toContain("+14155550123");
     expect(result.isError).toBeUndefined();
   });
