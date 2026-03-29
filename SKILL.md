@@ -2,8 +2,8 @@
 name: saperly
 description: >
   give your ai agent a phone number. provision lines, make calls,
-  send sms, check compliance — all from claude code. saperly is
-  the phone carrier for ai agents.
+  check compliance — all from claude code. saperly is the phone
+  carrier for ai agents.
 ---
 
 # saperly
@@ -70,15 +70,6 @@ show recent call history.
 
 usage: `/calls`
 
-### /sms
-
-send an sms from one of your lines.
-
-usage: `/sms +14155551234 hello from my agent!`
-
-first argument is the phone number, everything after is the message.
-consent must be granted first. costs $0.01 per message.
-
 ### /balance
 
 check your account credit balance and per-minute rates.
@@ -110,16 +101,8 @@ status: initiated
 
   +14155550123  text  active  "unnamed"
 
-> /sms +14155551234 hey, just following up on our call!
-sms sent!
-
-id: SM1234abc
-from: +14155550123
-to: +14155551234
-status: sent
-
 > /balance
-balance: $4.84 USD
+balance: $4.85 USD
 
 rates:
   outbound: $0.05/min
