@@ -9,6 +9,7 @@ import { registerComplianceTools } from "./tools/compliance.js";
 import { registerDisclosureTools } from "./tools/disclosures.js";
 import { registerBillingTools } from "./tools/billing.js";
 import { registerAccountTools } from "./tools/account.js";
+import { registerWebhookTools } from "./tools/webhooks.js";
 
 const apiKey = process.env.SAPERLY_API_KEY;
 if (!apiKey) {
@@ -37,6 +38,7 @@ registerComplianceTools(server, client);
 registerDisclosureTools(server, client);
 registerBillingTools(server, client);
 registerAccountTools(server, client);
+registerWebhookTools(server, client);
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
