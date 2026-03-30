@@ -60,7 +60,7 @@ and text-to-speech — your agent just sees text.
 
 ### /lines
 
-list all your phone lines with numbers and mode.
+list all your phone lines with numbers and mode. lines support voice calls and inbound SMS.
 
 usage: `/lines`
 
