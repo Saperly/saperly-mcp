@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.28.0",
-    "@saperly/sdk": "^0.1.0",
+    "@saperly/sdk": "^0.2.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
