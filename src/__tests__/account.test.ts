@@ -14,6 +14,8 @@ function createMockClient() {
     lines: { list: vi.fn() },
     calls: { list: vi.fn() },
     billing: { balance: vi.fn() },
+    usage: { daily: vi.fn() },
+    conversations: { list: vi.fn() },
   } as unknown as Saperly;
 }
 
@@ -49,6 +51,12 @@ describe("account tools", () => {
         audioHandlerUrl: null,
         webhookUrl: null,
         statusCallbackUrl: null,
+        systemPrompt: null,
+        beginMessage: null,
+        voice: null,
+        contextLimit: null,
+        recordingEnabled: false,
+        complianceEnabled: true,
         status: "active",
         environment: "live",
         createdAt: "2026-03-28T00:00:00Z",
@@ -66,6 +74,10 @@ describe("account tools", () => {
           durationSec: 45,
           startedAt: "2026-03-28T00:00:00Z",
           endedAt: "2026-03-28T00:00:45Z",
+          recordingUrl: null,
+          transcript: null,
+          systemPrompt: null,
+          beginMessage: null,
           createdAt: "2026-03-28T00:00:00Z",
         },
       ],
@@ -75,6 +87,26 @@ describe("account tools", () => {
       balanceCents: 485,
       currency: "USD",
     });
+    vi.mocked(client.usage.daily).mockResolvedValueOnce({
+      daily: [
+        { date: "2026-03-28", calls: 1, minutes: 1, smsInbound: 0, smsOutbound: 0, costCents: 11 },
+      ],
+    });
+    vi.mocked(client.conversations.list).mockResolvedValueOnce({
+      conversations: [
+        {
+          lineId: "line-1",
+          phoneNumber: "+14155551234",
+          linePhoneNumber: "+14155550123",
+          messageCount: 2,
+          lastMessageAt: "2026-03-28T00:00:00Z",
+          lastMessageText: "Hi",
+          lastMessageDirection: "inbound" as const,
+        },
+      ],
+      hasMore: false,
+      nextCursor: null,
+    });
 
     const result = await tools["saperly_account_overview"]({});
 
@@ -82,6 +114,9 @@ describe("account tools", () => {
     expect(result.content[0].text).toContain("$4.85");
     expect(result.content[0].text).toContain("+14155550123");
     expect(result.content[0].text).toContain("1 total");
+    expect(result.content[0].text).toContain("last 7 days");
+    expect(result.content[0].text).toContain("1 calls");
+    expect(result.content[0].text).toContain("SMS conversations: active");
     expect(result.isError).toBeUndefined();
   });
 
@@ -93,6 +128,12 @@ describe("account tools", () => {
     });
     vi.mocked(client.billing.balance).mockRejectedValueOnce(
       new NotFoundError("Billing endpoint not found"),
+    );
+    vi.mocked(client.usage.daily).mockRejectedValueOnce(
+      new Error("Not available"),
+    );
+    vi.mocked(client.conversations.list).mockRejectedValueOnce(
+      new Error("Not available"),
     );
 
     const result = await tools["saperly_account_overview"]({});

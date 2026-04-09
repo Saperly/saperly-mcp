@@ -7,7 +7,7 @@ import { toolResult, toolError } from "./utils.js";
 export function registerBillingTools(server: McpServer, client: Saperly) {
   server.tool(
     "saperly_get_balance",
-    "check your account credit balance. use saperly_add_funds to top up.",
+    "check your credit balance. calls cost $0.11/min (webhook mode) or $0.20/min (hosted mode). numbers are $2/mo.",
     {},
     async () => {
       try {

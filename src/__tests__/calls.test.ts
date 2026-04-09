@@ -16,6 +16,7 @@ function createMockClient() {
       list: vi.fn(),
       get: vi.fn(),
       hangup: vi.fn(),
+      conversation: vi.fn(),
     },
   } as unknown as Saperly;
 }
@@ -52,6 +53,10 @@ describe("calls tools", () => {
       durationSec: null,
       startedAt: null,
       endedAt: null,
+      recordingUrl: null,
+      transcript: null,
+      systemPrompt: null,
+      beginMessage: null,
       createdAt: "2026-03-28T00:00:00Z",
     });
 
@@ -78,6 +83,10 @@ describe("calls tools", () => {
           durationSec: 45,
           startedAt: "2026-03-28T00:00:00Z",
           endedAt: "2026-03-28T00:00:45Z",
+          recordingUrl: null,
+          transcript: null,
+          systemPrompt: null,
+          beginMessage: null,
           createdAt: "2026-03-28T00:00:00Z",
         },
       ],
@@ -102,6 +111,10 @@ describe("calls tools", () => {
       durationSec: 45,
       startedAt: "2026-03-28T00:00:00Z",
       endedAt: "2026-03-28T00:00:45Z",
+      recordingUrl: null,
+      transcript: null,
+      systemPrompt: null,
+      beginMessage: null,
       createdAt: "2026-03-28T00:00:00Z",
     });
 
@@ -123,6 +136,10 @@ describe("calls tools", () => {
       durationSec: 45,
       startedAt: "2026-03-28T00:00:00Z",
       endedAt: "2026-03-28T00:00:45Z",
+      recordingUrl: null,
+      transcript: null,
+      systemPrompt: null,
+      beginMessage: null,
       createdAt: "2026-03-28T00:00:00Z",
     });
 
@@ -161,5 +178,83 @@ describe("calls tools", () => {
     expect(result.isError).toBe(true);
     expect(result.content[0].text).toContain("insufficient credits");
     expect(result.content[0].text).toContain("saperly_get_balance");
+  });
+
+  it("saperly_conversation_call creates call, polls, and returns transcript", async () => {
+    vi.useFakeTimers();
+
+    const initiatedCall = {
+      id: "call-conv-1",
+      lineId: "line-1",
+      direction: "outbound" as const,
+      fromNumber: "+14155550123",
+      toNumber: "+14155551234",
+      status: "initiated" as const,
+      durationSec: null,
+      startedAt: null,
+      endedAt: null,
+      recordingUrl: null,
+      transcript: null,
+      systemPrompt: "You are a scheduling assistant",
+      beginMessage: "Hi, I'm calling about your appointment.",
+      createdAt: "2026-04-08T00:00:00Z",
+    };
+
+    const completedCall = {
+      ...initiatedCall,
+      status: "completed" as const,
+      durationSec: 42,
+      startedAt: "2026-04-08T00:00:01Z",
+      endedAt: "2026-04-08T00:00:43Z",
+      recordingUrl: "https://storage.example.com/call-conv-1.wav",
+      transcript: [
+        { role: "assistant", text: "Hi, I'm calling about your appointment.", timestamp: "2026-04-08T00:00:02Z" },
+        { role: "user", text: "Yes, Friday works great.", timestamp: "2026-04-08T00:00:10Z" },
+      ],
+    };
+
+    vi.mocked(client.calls.conversation).mockResolvedValueOnce(initiatedCall);
+    vi.mocked(client.calls.get)
+      .mockResolvedValueOnce({ ...initiatedCall, status: "in_progress" as const })
+      .mockResolvedValueOnce(completedCall);
+
+    const resultPromise = tools["saperly_conversation_call"]({
+      lineId: "line-1",
+      toNumber: "+14155551234",
+      topic: "confirm appointment for friday",
+      beginMessage: "Hi, I'm calling about your appointment.",
+    });
+
+    // Advance through the polling delays
+    await vi.advanceTimersByTimeAsync(3000);
+    await vi.advanceTimersByTimeAsync(3000);
+
+    const result = await resultPromise;
+
+    expect(result.content[0].text).toContain("call_id: call-conv-1");
+    expect(result.content[0].text).toContain("status: completed");
+    expect(result.content[0].text).toContain("duration: 42s");
+    expect(result.content[0].text).toContain("recording: https://storage.example.com/call-conv-1.wav");
+    expect(result.content[0].text).toContain("transcript:");
+    expect(result.content[0].text).toContain("[assistant]: Hi, I'm calling about your appointment.");
+    expect(result.content[0].text).toContain("[user]: Yes, Friday works great.");
+    expect(result.isError).toBeUndefined();
+
+    vi.useRealTimers();
+  });
+
+  it("saperly_conversation_call handles failed call", async () => {
+    vi.mocked(client.calls.conversation).mockRejectedValueOnce(
+      new InsufficientCreditsError("Balance is $0.00"),
+    );
+
+    const result = await tools["saperly_conversation_call"]({
+      lineId: "line-1",
+      toNumber: "+14155551234",
+      topic: "test call",
+    });
+
+    expect(result.isError).toBe(true);
+    expect(result.content[0].text).toContain("insufficient credits");
   });
 });

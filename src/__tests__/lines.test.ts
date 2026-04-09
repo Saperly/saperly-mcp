@@ -16,6 +16,7 @@ function createMockClient() {
       list: vi.fn(),
       get: vi.fn(),
       delete: vi.fn(),
+      update: vi.fn(),
     },
   } as unknown as Saperly;
 }
@@ -51,6 +52,12 @@ describe("lines tools", () => {
       audioHandlerUrl: null,
       webhookUrl: "https://example.com/hook",
       statusCallbackUrl: null,
+      systemPrompt: null,
+      beginMessage: null,
+      voice: null,
+      contextLimit: null,
+      recordingEnabled: false,
+      complianceEnabled: true,
       status: "active",
       environment: "live",
       createdAt: "2026-03-28T00:00:00Z",
@@ -77,6 +84,12 @@ describe("lines tools", () => {
         audioHandlerUrl: null,
         webhookUrl: null,
         statusCallbackUrl: null,
+        systemPrompt: null,
+        beginMessage: null,
+        voice: null,
+        contextLimit: null,
+        recordingEnabled: false,
+        complianceEnabled: true,
         status: "active",
         environment: "live",
         createdAt: "2026-03-28T00:00:00Z",
@@ -90,6 +103,12 @@ describe("lines tools", () => {
         audioHandlerUrl: null,
         webhookUrl: null,
         statusCallbackUrl: null,
+        systemPrompt: null,
+        beginMessage: null,
+        voice: null,
+        contextLimit: null,
+        recordingEnabled: false,
+        complianceEnabled: true,
         status: "active",
         environment: "live",
         createdAt: "2026-03-28T00:00:00Z",
@@ -113,6 +132,12 @@ describe("lines tools", () => {
       audioHandlerUrl: null,
       webhookUrl: "https://example.com/hook",
       statusCallbackUrl: null,
+      systemPrompt: null,
+      beginMessage: null,
+      voice: null,
+      contextLimit: null,
+      recordingEnabled: false,
+      complianceEnabled: true,
       status: "active",
       environment: "live",
       createdAt: "2026-03-28T00:00:00Z",
@@ -135,6 +160,12 @@ describe("lines tools", () => {
       audioHandlerUrl: null,
       webhookUrl: null,
       statusCallbackUrl: null,
+      systemPrompt: null,
+      beginMessage: null,
+      voice: null,
+      contextLimit: null,
+      recordingEnabled: false,
+      complianceEnabled: true,
       status: "released",
       environment: "live",
       createdAt: "2026-03-28T00:00:00Z",
@@ -161,5 +192,59 @@ describe("lines tools", () => {
     expect(result.isError).toBe(true);
     expect(result.content[0].text).toContain("validation error");
     expect(result.content[0].text).toContain("name: is required");
+  });
+
+  it("saperly_update_line returns updated line", async () => {
+    vi.mocked(client.lines.update).mockResolvedValueOnce({
+      id: "line-1",
+      phoneNumber: "+14155550123",
+      displayName: null,
+      name: "updated bot",
+      mode: "text",
+      audioHandlerUrl: null,
+      webhookUrl: "https://example.com/hook",
+      statusCallbackUrl: null,
+      systemPrompt: "You are a helpful assistant",
+      beginMessage: "Hello!",
+      voice: "nova",
+      contextLimit: 30,
+      recordingEnabled: true,
+      complianceEnabled: true,
+      status: "active",
+      environment: "live",
+      createdAt: "2026-03-28T00:00:00Z",
+    });
+
+    const result = await tools["saperly_update_line"]({
+      lineId: "line-1",
+      name: "updated bot",
+      systemPrompt: "You are a helpful assistant",
+      voice: "nova",
+      recordingEnabled: true,
+    });
+
+    expect(result.content[0].text).toContain("line updated!");
+    expect(result.content[0].text).toContain("updated bot");
+    expect(result.content[0].text).toContain("system prompt: You are a helpful assistant");
+    expect(result.content[0].text).toContain("voice: nova");
+    expect(result.content[0].text).toContain("recording: enabled");
+    expect(result.isError).toBeUndefined();
+  });
+
+  it("saperly_update_line returns error on failure", async () => {
+    vi.mocked(client.lines.update).mockRejectedValueOnce(
+      new ValidationError("Invalid input", 422, [
+        { field: "contextLimit", message: "must be between 1 and 50" },
+      ]),
+    );
+
+    const result = await tools["saperly_update_line"]({
+      lineId: "line-1",
+      contextLimit: 100,
+    });
+
+    expect(result.isError).toBe(true);
+    expect(result.content[0].text).toContain("validation error");
+    expect(result.content[0].text).toContain("contextLimit");
   });
 });

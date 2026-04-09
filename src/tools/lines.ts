@@ -14,6 +14,13 @@ function formatLine(l: Line): string {
     l.webhookUrl ? `webhook: ${l.webhookUrl}` : null,
     l.audioHandlerUrl ? `audio handler: ${l.audioHandlerUrl}` : null,
     l.statusCallbackUrl ? `status callback: ${l.statusCallbackUrl}` : null,
+    l.systemPrompt
+      ? `system prompt: ${l.systemPrompt.slice(0, 100)}${l.systemPrompt.length > 100 ? "..." : ""}`
+      : null,
+    l.beginMessage ? `begin message: ${l.beginMessage}` : null,
+    l.voice ? `voice: ${l.voice}` : null,
+    l.contextLimit != null ? `context limit: ${l.contextLimit} turns` : null,
+    l.recordingEnabled ? `recording: enabled` : null,
     `created: ${l.createdAt}`,
   ]
     .filter(Boolean)
@@ -42,6 +49,23 @@ export function registerLinesTools(server: McpServer, client: Saperly) {
         .string()
         .optional()
         .describe("optional. receives call lifecycle events."),
+      systemPrompt: z
+        .string()
+        .optional()
+        .describe("system prompt for hosted mode. tells the AI agent how to behave."),
+      beginMessage: z
+        .string()
+        .optional()
+        .describe("first thing the agent says when a call connects."),
+      voice: z.string().optional().describe("TTS voice id. use saperly_list_voices to see options."),
+      contextLimit: z
+        .number()
+        .optional()
+        .describe("conversation memory in turns (1-50). default 20."),
+      recordingEnabled: z
+        .boolean()
+        .optional()
+        .describe("enable call recording for this line."),
     },
     async (args) => {
       try {
@@ -103,6 +127,49 @@ export function registerLinesTools(server: McpServer, client: Saperly) {
         return toolResult(
           `line released. phone number ${line.phoneNumber} is no longer yours.`,
         );
+      } catch (err) {
+        return toolError(err);
+      }
+    },
+  );
+
+  server.tool(
+    "saperly_update_line",
+    "update a phone line's configuration. can change webhook urls, system prompt, voice, recording, and other settings.",
+    {
+      lineId: z.string().describe("the line id to update"),
+      name: z.string().optional().describe("display name"),
+      webhookUrl: z.string().optional().describe("webhook URL for text mode"),
+      audioHandlerUrl: z
+        .string()
+        .optional()
+        .describe("websocket URL for audio mode"),
+      statusCallbackUrl: z
+        .string()
+        .optional()
+        .describe("receives call lifecycle events"),
+      systemPrompt: z
+        .string()
+        .optional()
+        .describe("system prompt for hosted mode"),
+      beginMessage: z
+        .string()
+        .optional()
+        .describe("first thing the agent says"),
+      voice: z.string().optional().describe("TTS voice id"),
+      contextLimit: z
+        .number()
+        .optional()
+        .describe("conversation memory (1-50 turns)"),
+      recordingEnabled: z
+        .boolean()
+        .optional()
+        .describe("enable call recording"),
+    },
+    async ({ lineId, ...params }) => {
+      try {
+        const line = await client.lines.update(lineId, params);
+        return toolResult(`line updated!\n\n${formatLine(line)}`);
       } catch (err) {
         return toolError(err);
       }

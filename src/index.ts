@@ -10,6 +10,10 @@ import { registerDisclosureTools } from "./tools/disclosures.js";
 import { registerBillingTools } from "./tools/billing.js";
 import { registerAccountTools } from "./tools/account.js";
 import { registerWebhookTools } from "./tools/webhooks.js";
+import { registerMessagesTools } from "./tools/messages.js";
+import { registerUsageTools } from "./tools/usage.js";
+import { registerSettingsTools } from "./tools/settings.js";
+import { registerVoicesTools } from "./tools/voices.js";
 
 const apiKey = process.env.SAPERLY_API_KEY;
 if (!apiKey) {
@@ -39,6 +43,10 @@ registerDisclosureTools(server, client);
 registerBillingTools(server, client);
 registerAccountTools(server, client);
 registerWebhookTools(server, client);
+registerMessagesTools(server, client);
+registerUsageTools(server, client);
+registerSettingsTools(server, client);
+registerVoicesTools(server, client);
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
