@@ -42,15 +42,14 @@ describe("billing tools", () => {
 
   it("saperly_get_balance returns formatted balance with rates", async () => {
     vi.mocked(client.billing.balance).mockResolvedValueOnce({
-      balanceCents: 485,
-      currency: "USD",
+      credits: 485,
+      currency: "credits",
     });
 
     const result = await tools["saperly_get_balance"]({});
 
-    expect(result.content[0].text).toContain("$4.85");
-    expect(result.content[0].text).toContain("USD");
-    expect(result.content[0].text).toContain("$0.05/min");
+    expect(result.content[0].text).toContain("485 credits");
+    expect(result.content[0].text).toContain("13 credits/min");
     expect(result.isError).toBeUndefined();
   });
 
@@ -62,7 +61,7 @@ describe("billing tools", () => {
     const result = await tools["saperly_get_balance"]({});
 
     expect(result.content[0].text).toContain("not available yet");
-    expect(result.content[0].text).toContain("$5.00");
+    expect(result.content[0].text).toContain("500 starter credits");
     expect(result.isError).toBeUndefined();
   });
 
@@ -71,10 +70,10 @@ describe("billing tools", () => {
       checkoutUrl: "https://checkout.lemonsqueezy.com/pay/abc123",
     });
 
-    const result = await tools["saperly_add_funds"]({ amount_cents: 2500 });
+    const result = await tools["saperly_add_funds"]({ amount_credits: 2500 });
 
     expect(result.content[0].text).toContain("https://checkout.lemonsqueezy.com/pay/abc123");
-    expect(result.content[0].text).toContain("$25.00");
+    expect(result.content[0].text).toContain("2500 credits");
     expect(result.isError).toBeUndefined();
   });
 
@@ -84,8 +83,8 @@ describe("billing tools", () => {
         {
           id: "t1",
           type: "signup_credit",
-          amountCents: 500,
-          balanceAfterCents: 500,
+          amountCredits: 500,
+          balanceAfterCredits: 500,
           description: "Signup credit",
           referenceId: null,
           referenceType: null,
@@ -98,7 +97,7 @@ describe("billing tools", () => {
 
     const result = await tools["saperly_list_transactions"]({});
 
-    expect(result.content[0].text).toContain("+$5.00");
+    expect(result.content[0].text).toContain("+500 credits");
     expect(result.content[0].text).toContain("signup credit");
     expect(result.isError).toBeUndefined();
   });
@@ -109,8 +108,8 @@ describe("billing tools", () => {
         {
           id: "t1",
           type: "call_charge",
-          amountCents: 50,
-          balanceAfterCents: 450,
+          amountCredits: 50,
+          balanceAfterCredits: 450,
           description: "Call charge",
           referenceId: "call-1",
           referenceType: "call",
@@ -123,7 +122,7 @@ describe("billing tools", () => {
 
     const result = await tools["saperly_list_transactions"]({});
 
-    expect(result.content[0].text).toContain("-$0.50");
+    expect(result.content[0].text).toContain("-50 credits");
     expect(result.content[0].text).toContain("2025-12-31T00:00:00Z");
   });
 

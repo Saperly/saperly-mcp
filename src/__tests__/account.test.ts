@@ -84,12 +84,12 @@ describe("account tools", () => {
       total: 1,
     });
     vi.mocked(client.billing.balance).mockResolvedValueOnce({
-      balanceCents: 485,
-      currency: "USD",
+      credits: 485,
+      currency: "credits",
     });
     vi.mocked(client.usage.daily).mockResolvedValueOnce({
       daily: [
-        { date: "2026-03-28", calls: 1, minutes: 1, smsInbound: 0, smsOutbound: 0, costCents: 11 },
+        { date: "2026-03-28", calls: 1, minutes: 1, smsInbound: 0, smsOutbound: 0, costCredits: 11 },
       ],
     });
     vi.mocked(client.conversations.list).mockResolvedValueOnce({
@@ -111,7 +111,7 @@ describe("account tools", () => {
     const result = await tools["saperly_account_overview"]({});
 
     expect(result.content[0].text).toContain("saperly account overview");
-    expect(result.content[0].text).toContain("$4.85");
+    expect(result.content[0].text).toContain("485 credits");
     expect(result.content[0].text).toContain("+14155550123");
     expect(result.content[0].text).toContain("1 total");
     expect(result.content[0].text).toContain("last 7 days");

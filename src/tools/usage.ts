@@ -26,7 +26,7 @@ export function registerUsageTools(server: McpServer, client: Saperly) {
           const lines = result.daily
             .map(
               (d) =>
-                `  ${d.date}  ${d.calls} calls  ${d.minutes} min  $${(d.costCents / 100).toFixed(2)}`,
+                `  ${d.date}  ${d.calls} calls  ${d.minutes} min  ${d.costCredits} credits`,
             )
             .join("\n");
           return toolResult(`daily usage:\n\n${lines}`);
@@ -36,7 +36,7 @@ export function registerUsageTools(server: McpServer, client: Saperly) {
           const lines = result.monthly
             .map(
               (m) =>
-                `  ${m.month}  ${m.calls} calls  ${m.minutes} min  $${(m.costCents / 100).toFixed(2)}`,
+                `  ${m.month}  ${m.calls} calls  ${m.minutes} min  ${m.costCredits} credits`,
             )
             .join("\n");
           return toolResult(`monthly usage:\n\n${lines}`);

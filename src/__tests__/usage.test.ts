@@ -47,7 +47,7 @@ describe("usage tools", () => {
           minutes: 12,
           smsInbound: 2,
           smsOutbound: 1,
-          costCents: 132,
+          costCredits: 132,
         },
         {
           date: "2026-04-07",
@@ -55,7 +55,7 @@ describe("usage tools", () => {
           minutes: 5,
           smsInbound: 0,
           smsOutbound: 0,
-          costCents: 55,
+          costCredits: 55,
         },
       ],
     });
@@ -65,7 +65,7 @@ describe("usage tools", () => {
     expect(result.content[0].text).toContain("daily usage:");
     expect(result.content[0].text).toContain("2026-04-08");
     expect(result.content[0].text).toContain("3 calls");
-    expect(result.content[0].text).toContain("$1.32");
+    expect(result.content[0].text).toContain("132 credits");
     expect(result.content[0].text).toContain("2026-04-07");
     expect(result.isError).toBeUndefined();
     expect(client.usage.daily).toHaveBeenCalledWith({ days: 7 });
@@ -80,7 +80,7 @@ describe("usage tools", () => {
           minutes: 120,
           smsInbound: 10,
           smsOutbound: 5,
-          costCents: 1320,
+          costCredits: 1320,
         },
       ],
     });
@@ -92,7 +92,7 @@ describe("usage tools", () => {
     expect(result.content[0].text).toContain("monthly usage:");
     expect(result.content[0].text).toContain("2026-04");
     expect(result.content[0].text).toContain("25 calls");
-    expect(result.content[0].text).toContain("$13.20");
+    expect(result.content[0].text).toContain("1320 credits");
     expect(result.isError).toBeUndefined();
     expect(client.usage.monthly).toHaveBeenCalledWith({ months: 3 });
   });

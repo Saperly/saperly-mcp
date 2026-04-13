@@ -167,7 +167,7 @@ describe("calls tools", () => {
 
   it("saperly_create_call returns insufficient credits error", async () => {
     vi.mocked(client.calls.create).mockRejectedValueOnce(
-      new InsufficientCreditsError("Balance is $0.00"),
+      new InsufficientCreditsError("Insufficient balance to place call."),
     );
 
     const result = await tools["saperly_create_call"]({
@@ -245,7 +245,7 @@ describe("calls tools", () => {
 
   it("saperly_conversation_call handles failed call", async () => {
     vi.mocked(client.calls.conversation).mockRejectedValueOnce(
-      new InsufficientCreditsError("Balance is $0.00"),
+      new InsufficientCreditsError("Insufficient balance to place call."),
     );
 
     const result = await tools["saperly_conversation_call"]({

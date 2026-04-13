@@ -21,7 +21,7 @@ export SAPERLY_API_KEY=sk_live_...
 ```
 
 get your key at https://saperly.com/portal.
-$5 free credit on signup — enough for a phone number + ~60 minutes of calls.
+500 free credits on signup — enough for a phone number + ~60 minutes of calls.
 
 ### claude desktop config
 
@@ -103,7 +103,7 @@ usage: `/conversation <line-id> +14155551234`
 
 ### /balance
 
-check your account credit balance and per-minute rates.
+check your account credit balance and per-second rates.
 
 usage: `/balance`
 
@@ -170,8 +170,8 @@ status: queued
 > /usage
 daily usage:
 
-  2026-04-08  3 calls  12 min  $1.32
-  2026-04-07  1 calls  5 min  $0.55
+  2026-04-08  3 calls  12 min  132 credits
+  2026-04-07  1 calls  5 min  55 credits
 
 > /voices
 4 voice(s):
@@ -185,7 +185,7 @@ daily usage:
   +14155550123  text  active  "unnamed"
 
 > /balance
-balance: $3.13 USD
+balance: 313 credits
 ```
 
 ## how it works
@@ -193,12 +193,12 @@ balance: $3.13 USD
 saperly is a phone carrier for ai agents. three modes:
 
 **text mode:** caller speaks -> saperly transcribes -> posts to your webhook ->
-you respond with text -> saperly speaks it -> caller hears. $0.11/min.
+you respond with text -> saperly speaks it -> caller hears. 13 credits/min, billed per second.
 
-**audio mode:** raw audio streams to your websocket. you handle s2t/t2s. $0.11/min.
+**audio mode:** raw audio streams to your websocket. you handle s2t/t2s. 13 credits/min, billed per second.
 
 **hosted mode:** saperly runs the LLM for you. just provide a system prompt
-and saperly handles the entire conversation. $0.20/min. use conversation-call
+and saperly handles the entire conversation. 22 credits/min, billed per second. use conversation-call
 or configure a line with a system prompt.
 
 ## resources

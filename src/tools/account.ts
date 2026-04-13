@@ -16,7 +16,7 @@ export function registerAccountTools(server: McpServer, client: Saperly) {
         ]);
 
         const balanceText = balanceResult
-          ? `balance: $${(balanceResult.balanceCents / 100).toFixed(2)} ${balanceResult.currency}`
+          ? `balance: ${balanceResult.credits} credits`
           : "balance: check saperly.com/portal";
 
         const linesList =
@@ -52,11 +52,11 @@ export function registerAccountTools(server: McpServer, client: Saperly) {
               0,
             );
             const totalCost = usage.daily.reduce(
-              (sum, d) => sum + d.costCents,
+              (sum, d) => sum + d.costCredits,
               0,
             );
             parts.push(
-              `\n\u2014 last 7 days \u2014\n${totalCalls} calls, ${totalMinutes} minutes, $${(totalCost / 100).toFixed(2)}`,
+              `\n\u2014 last 7 days \u2014\n${totalCalls} calls, ${totalMinutes} minutes, ${totalCost} credits`,
             );
           }
         } catch {

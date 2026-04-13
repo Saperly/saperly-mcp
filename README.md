@@ -1,5 +1,7 @@
 # @saperly/mcp
 
+> **Published at [github.com/Saperly/saperly-mcp](https://github.com/Saperly/saperly-mcp).** This copy in the monorepo is the development source.
+
 MCP server for [Saperly](https://saperly.com) — the phone carrier for AI agents. 16 tools that let any MCP-compatible client provision phone lines, make calls, manage consent, and query compliance.
 
 ## Install
