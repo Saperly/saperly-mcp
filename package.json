@@ -1,6 +1,30 @@
 {
   "name": "@saperly/mcp",
-  "version": "0.1.0",
+  "version": "0.1.2",
+  "description": "Phone carrier for AI agents. Provision phone numbers, place and receive calls, send and receive SMS, manage TCPA compliance and consent, and track usage and billing from any MCP-compatible client. 30 tools across 12 groups.",
+  "homepage": "https://saperly.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idanbier999/Saperly.git",
+    "directory": "packages/mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/idanbier999/Saperly/issues"
+  },
+  "author": "Saperly",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai-agents",
+    "phone",
+    "telephony",
+    "sms",
+    "voice",
+    "tcpa",
+    "compliance",
+    "saperly"
+  ],
+  "mcpName": "io.github.idanbier999/saperly",
   "type": "module",
   "bin": {
     "saperly-mcp": "dist/index.js"
@@ -14,7 +38,12 @@
   },
   "files": ["dist", "SKILL.md", "manifest.json"],
   "license": "MIT",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "test": "vitest run",

@@ -1,6 +1,6 @@
 {
   "name": "saperly",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Phone carrier for AI agents. Provision phone numbers, place and receive calls, manage TCPA compliance and consent, track usage and billing.",
   "homepage": "https://saperly.com",
   "documentation": "https://docs.saperly.com",
