@@ -9,9 +9,10 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
-    }
+    },
+    "./manifest.json": "./manifest.json"
   },
-  "files": ["dist", "SKILL.md"],
+  "files": ["dist", "SKILL.md", "manifest.json"],
   "license": "MIT",
   "engines": { "node": ">=18" },
   "scripts": {
