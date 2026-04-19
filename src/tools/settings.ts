@@ -29,7 +29,7 @@ export function registerSettingsTools(server: McpServer, client: Saperly) {
       defaultWebhookUrl: z
         .string()
         .optional()
-        .describe("default webhook URL for new text-mode lines. omit to clear."),
+        .describe("default webhook URL for new webhook-mode lines. omit to clear."),
     },
     async (args) => {
       try {
