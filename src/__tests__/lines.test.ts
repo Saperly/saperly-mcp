@@ -48,7 +48,7 @@ describe("lines tools", () => {
       phoneNumber: "+14155550123",
       displayName: null,
       name: "test bot",
-      mode: "text",
+      mode: "webhook",
       audioHandlerUrl: null,
       webhookUrl: "https://example.com/hook",
       statusCallbackUrl: null,
@@ -65,7 +65,7 @@ describe("lines tools", () => {
 
     const result = await tools["saperly_create_line"]({
       name: "test bot",
-      mode: "text",
+      mode: "webhook",
     });
 
     expect(result.content[0].text).toContain("+14155550123");
@@ -80,7 +80,7 @@ describe("lines tools", () => {
         phoneNumber: "+14155550123",
         displayName: null,
         name: "bot-1",
-        mode: "text",
+        mode: "webhook",
         audioHandlerUrl: null,
         webhookUrl: null,
         statusCallbackUrl: null,
@@ -128,7 +128,7 @@ describe("lines tools", () => {
       phoneNumber: "+14155550123",
       displayName: null,
       name: "test bot",
-      mode: "text",
+      mode: "webhook",
       audioHandlerUrl: null,
       webhookUrl: "https://example.com/hook",
       statusCallbackUrl: null,
@@ -146,35 +146,7 @@ describe("lines tools", () => {
     const result = await tools["saperly_get_line"]({ lineId: "line-1" });
 
     expect(result.content[0].text).toContain("+14155550123");
-    expect(result.content[0].text).toContain("text");
-    expect(result.isError).toBeUndefined();
-  });
-
-  it("saperly_delete_line returns release confirmation", async () => {
-    vi.mocked(client.lines.delete).mockResolvedValueOnce({
-      id: "line-1",
-      phoneNumber: "+14155550123",
-      displayName: null,
-      name: "test bot",
-      mode: "text",
-      audioHandlerUrl: null,
-      webhookUrl: null,
-      statusCallbackUrl: null,
-      systemPrompt: null,
-      beginMessage: null,
-      voice: null,
-      contextLimit: null,
-      recordingEnabled: false,
-      complianceEnabled: true,
-      status: "released",
-      environment: "live",
-      createdAt: "2026-03-28T00:00:00Z",
-    });
-
-    const result = await tools["saperly_delete_line"]({ lineId: "line-1" });
-
-    expect(result.content[0].text).toContain("released");
-    expect(result.content[0].text).toContain("+14155550123");
+    expect(result.content[0].text).toContain("webhook");
     expect(result.isError).toBeUndefined();
   });
 
@@ -200,7 +172,7 @@ describe("lines tools", () => {
       phoneNumber: "+14155550123",
       displayName: null,
       name: "updated bot",
-      mode: "text",
+      mode: "webhook",
       audioHandlerUrl: null,
       webhookUrl: "https://example.com/hook",
       statusCallbackUrl: null,

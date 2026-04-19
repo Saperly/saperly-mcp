@@ -48,7 +48,6 @@ export SAPERLY_API_KEY=sk_live_...
 | `saperly_create_line` | Provision a new phone line |
 | `saperly_list_lines` | List all lines |
 | `saperly_get_line` | Get line details |
-| `saperly_delete_line` | Release a phone line |
 | `saperly_create_call` | Make an outbound call |
 | `saperly_list_calls` | List recent calls |
 | `saperly_get_call` | Get call details |
@@ -61,6 +60,17 @@ export SAPERLY_API_KEY=sk_live_...
 | `saperly_list_disclosures` | List disclosures |
 | `saperly_get_balance` | Check credit balance |
 | `saperly_account_overview` | Full account snapshot |
+
+## Migration — v0.1.x → v0.2.0
+
+**Breaking change:** `saperly_delete_line` was removed in v0.2.0. An AI agent hallucinating a `lineId` could permanently release a real phone number — safety over convenience.
+
+**Workarounds:**
+- **Portal** — delete lines at https://saperly.com/lines
+- **REST API** — `DELETE /v1/lines/{id}` with your API key
+- **SDK** — `client.lines.delete(lineId)`
+
+The mode enum also tightened to `["webhook", "audio", "hosted"]`. Legacy `mode:"text"` via MCP now rejects (REST still accepts both for back-compat). Update your scripts to use `"webhook"`.
 
 ## Environment Variables
 

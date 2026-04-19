@@ -1,6 +1,6 @@
 {
   "name": "saperly",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Phone carrier for AI agents. Provision phone numbers, place and receive calls, manage TCPA compliance and consent, track usage and billing.",
   "homepage": "https://saperly.com",
   "documentation": "https://docs.saperly.com",
@@ -22,10 +22,9 @@
     { "name": "voices", "description": "TTS voices for hosted-mode calls" }
   ],
   "tools": [
-    { "name": "saperly_create_line", "group": "lines", "description": "provision a new phone line for your ai agent. returns the assigned phone number. mode: text (saperly handles S2T+T2S, your webhook gets text) or audio (raw websocket)." },
+    { "name": "saperly_create_line", "group": "lines", "description": "provision a new phone line for your ai agent. returns the assigned phone number. mode: webhook (S2T+T2S via your HTTP webhook, bring your own AI), audio (raw websocket stream), or hosted (saperly runs the AI, requires systemPrompt)." },
     { "name": "saperly_list_lines", "group": "lines", "description": "list all phone lines on your account with their phone numbers and mode." },
     { "name": "saperly_get_line", "group": "lines", "description": "get details for a specific phone line." },
-    { "name": "saperly_delete_line", "group": "lines", "description": "release a phone line. the number goes back to the carrier pool. this is irreversible." },
     { "name": "saperly_update_line", "group": "lines", "description": "update a phone line's configuration. can change webhook urls, system prompt, voice, recording, and other settings." },
     { "name": "saperly_create_call", "group": "calls", "description": "make an outbound phone call from one of your lines. consent must be granted first (use saperly_grant_consent). costs credits." },
     { "name": "saperly_list_calls", "group": "calls", "description": "list recent calls. optionally filter by line or status." },

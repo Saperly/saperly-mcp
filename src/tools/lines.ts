@@ -30,17 +30,19 @@ function formatLine(l: Line): string {
 export function registerLinesTools(server: McpServer, client: Saperly) {
   server.tool(
     "saperly_create_line",
-    "provision a new phone line for your ai agent. returns the assigned phone number. mode: text (saperly handles S2T+T2S, your webhook gets text) or audio (raw websocket).",
+    "provision a new phone line for your ai agent. returns the assigned phone number. mode: webhook (S2T+T2S via your HTTP webhook, bring your own AI), audio (raw websocket stream), or hosted (saperly runs the AI, requires systemPrompt).",
     {
       name: z.string().describe("display name for the line (e.g. 'support bot')"),
       mode: z
-        .enum(["text", "audio"])
+        .enum(["webhook", "audio", "hosted"])
         .optional()
-        .describe("text = S2T+T2S via webhook, audio = raw websocket. defaults to text."),
+        .describe(
+          "webhook = S2T+T2S via your HTTP webhook (bring your own AI). audio = raw websocket stream. hosted = Saperly runs the AI (requires systemPrompt).",
+        ),
       webhookUrl: z
         .string()
         .optional()
-        .describe("required for text mode. your server receives transcribed text here."),
+        .describe("required for webhook mode. your server receives transcribed text here."),
       audioHandlerUrl: z
         .string()
         .optional()
@@ -116,30 +118,12 @@ export function registerLinesTools(server: McpServer, client: Saperly) {
   );
 
   server.tool(
-    "saperly_delete_line",
-    "release a phone line. the number goes back to the carrier pool. this is irreversible.",
-    {
-      lineId: z.string().describe("the line id to release"),
-    },
-    async ({ lineId }) => {
-      try {
-        const line = await client.lines.delete(lineId);
-        return toolResult(
-          `line released. phone number ${line.phoneNumber} is no longer yours.`,
-        );
-      } catch (err) {
-        return toolError(err);
-      }
-    },
-  );
-
-  server.tool(
     "saperly_update_line",
     "update a phone line's configuration. can change webhook urls, system prompt, voice, recording, and other settings.",
     {
       lineId: z.string().describe("the line id to update"),
       name: z.string().optional().describe("display name"),
-      webhookUrl: z.string().optional().describe("webhook URL for text mode"),
+      webhookUrl: z.string().optional().describe("webhook URL for webhook mode"),
       audioHandlerUrl: z
         .string()
         .optional()

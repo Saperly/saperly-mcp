@@ -47,7 +47,7 @@ describe("account tools", () => {
         phoneNumber: "+14155550123",
         displayName: null,
         name: "bot-1",
-        mode: "text",
+        mode: "webhook",
         audioHandlerUrl: null,
         webhookUrl: null,
         statusCallbackUrl: null,
