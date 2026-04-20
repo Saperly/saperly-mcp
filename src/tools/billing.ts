@@ -7,13 +7,13 @@ import { toolResult, toolError } from "./utils.js";
 export function registerBillingTools(server: McpServer, client: Saperly) {
   server.tool(
     "saperly_get_balance",
-    "check your credit balance. calls cost 13 credits/min (webhook mode) or 22 credits/min (hosted mode). numbers are 300 credits/mo.",
+    "check your credit balance. calls cost $0.13/min (13 credits/min) in webhook mode or $0.22/min (22 credits/min) in hosted mode. numbers are $3.00/mo (300 credits/mo).",
     {},
     async () => {
       try {
         const balance = await client.billing.balance();
         return toolResult(
-          `balance: ${balance.credits} credits\n\nrates:\n  webhook mode: 13 credits/min\n  hosted mode: 22 credits/min\n  phone number: 300 credits/mo`,
+          `balance: ${balance.credits} credits\n\nrates:\n  webhook mode: $0.13/min (13 credits/min)\n  hosted mode: $0.22/min (22 credits/min)\n  phone number: $3.00/mo (300 credits/mo)`,
         );
       } catch (err) {
         if (err instanceof NotFoundError) {
