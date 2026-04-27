@@ -67,12 +67,12 @@ describe("billing tools", () => {
 
   it("saperly_add_funds returns checkout url", async () => {
     vi.mocked(client.billing.addFunds).mockResolvedValueOnce({
-      checkoutUrl: "https://checkout.lemonsqueezy.com/pay/abc123",
+      checkoutUrl: "https://checkout.stripe.com/pay/abc123",
     });
 
     const result = await tools["saperly_add_funds"]({ amount_credits: 2500 });
 
-    expect(result.content[0].text).toContain("https://checkout.lemonsqueezy.com/pay/abc123");
+    expect(result.content[0].text).toContain("https://checkout.stripe.com/pay/abc123");
     expect(result.content[0].text).toContain("2500 credits");
     expect(result.isError).toBeUndefined();
   });
