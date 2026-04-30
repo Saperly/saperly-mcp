@@ -37,7 +37,7 @@
     { "name": "saperly_compliance_audit", "group": "compliance", "description": "query the immutable compliance audit trail. shows disclosure plays, consent events, call lifecycle events." },
     { "name": "saperly_create_disclosure", "group": "disclosures", "description": "create a custom tcpa disclosure message played at the start of every call on lines using this disclosure." },
     { "name": "saperly_list_disclosures", "group": "disclosures", "description": "list all tcpa disclosure configurations." },
-    { "name": "saperly_get_balance", "group": "billing", "description": "check your credit balance. calls cost $0.13/min (13 credits/min) in webhook mode or $0.22/min (22 credits/min) in hosted mode. numbers are $3.00/mo (300 credits/mo)." },
+    { "name": "saperly_get_balance", "group": "billing", "description": "check your credit balance. calls cost 13 credits/min in webhook mode or 22 credits/min in hosted mode for Zone A (US/Canada). international destinations use Zone B (×2) or Zone C (×3) multipliers. numbers cost 300 credits per 30 days." },
     { "name": "saperly_add_funds", "group": "billing", "description": "add credits to your saperly account. returns a checkout url. amounts: 1000, 2500, 5000, 10000 credits." },
     { "name": "saperly_list_transactions", "group": "billing", "description": "list recent billing transactions: credits, charges, refunds. shows amount, type, and running balance." },
     { "name": "saperly_account_overview", "group": "account", "description": "get a full snapshot of your saperly account: all lines, balance, usage, and 5 most recent calls. use this first to understand current state." },

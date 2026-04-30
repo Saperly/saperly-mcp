@@ -49,7 +49,8 @@ describe("billing tools", () => {
     const result = await tools["saperly_get_balance"]({});
 
     expect(result.content[0].text).toContain("485 credits");
-    expect(result.content[0].text).toContain("$0.13/min");
+    expect(result.content[0].text).toContain("13 credits/min");
+    expect(result.content[0].text).toContain("22 credits/min");
     expect(result.isError).toBeUndefined();
   });
 
@@ -61,7 +62,7 @@ describe("billing tools", () => {
     const result = await tools["saperly_get_balance"]({});
 
     expect(result.content[0].text).toContain("not available yet");
-    expect(result.content[0].text).toContain("500 starter credits");
+    expect(result.content[0].text).toContain("400 starter credits");
     expect(result.isError).toBeUndefined();
   });
 

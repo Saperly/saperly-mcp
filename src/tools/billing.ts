@@ -7,18 +7,18 @@ import { toolResult, toolError } from "./utils.js";
 export function registerBillingTools(server: McpServer, client: Saperly) {
   server.tool(
     "saperly_get_balance",
-    "check your credit balance. calls cost $0.13/min (13 credits/min) in webhook mode or $0.22/min (22 credits/min) in hosted mode. numbers are $3.00/mo (300 credits/mo).",
+    "check your credit balance. calls cost 13 credits/min in webhook mode or 22 credits/min in hosted mode for Zone A (US/Canada). international destinations use Zone B (×2) or Zone C (×3) multipliers. numbers cost 300 credits per 30 days.",
     {},
     async () => {
       try {
         const balance = await client.billing.balance();
         return toolResult(
-          `balance: ${balance.credits} credits\n\nrates:\n  webhook mode: $0.13/min (13 credits/min)\n  hosted mode: $0.22/min (22 credits/min)\n  phone number: $3.00/mo (300 credits/mo)`,
+          `balance: ${balance.credits} credits\n\nrates (Zone A — US/Canada):\n  webhook mode: 13 credits/min\n  hosted mode: 22 credits/min\n  phone number: 300 credits per 30 days\n\ninternational destinations: Zone B = ×2, Zone C = ×3 (see https://docs.saperly.com/guides/voice-zones)`,
         );
       } catch (err) {
         if (err instanceof NotFoundError) {
           return toolResult(
-            "billing endpoint not available yet. your account has 500 starter credits.",
+            "billing endpoint not available yet. your account has 400 starter credits.",
           );
         }
         return toolError(err);
