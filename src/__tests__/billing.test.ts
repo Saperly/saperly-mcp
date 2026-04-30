@@ -49,8 +49,8 @@ describe("billing tools", () => {
     const result = await tools["saperly_get_balance"]({});
 
     expect(result.content[0].text).toContain("485 credits");
-    expect(result.content[0].text).toContain("13 credits/min");
-    expect(result.content[0].text).toContain("22 credits/min");
+    expect(result.content[0].text).toContain("60 credits/min");
+    expect(result.content[0].text).toContain("100 credits/min");
     expect(result.isError).toBeUndefined();
   });
 
@@ -62,7 +62,7 @@ describe("billing tools", () => {
     const result = await tools["saperly_get_balance"]({});
 
     expect(result.content[0].text).toContain("not available yet");
-    expect(result.content[0].text).toContain("400 starter credits");
+    expect(result.content[0].text).toContain("1,800 starter credits");
     expect(result.isError).toBeUndefined();
   });
 
@@ -71,10 +71,10 @@ describe("billing tools", () => {
       checkoutUrl: "https://checkout.stripe.com/pay/abc123",
     });
 
-    const result = await tools["saperly_add_funds"]({ amount_credits: 2500 });
+    const result = await tools["saperly_add_funds"]({ amount_credits: 12000 });
 
     expect(result.content[0].text).toContain("https://checkout.stripe.com/pay/abc123");
-    expect(result.content[0].text).toContain("2500 credits");
+    expect(result.content[0].text).toContain("12000 credits");
     expect(result.isError).toBeUndefined();
   });
 
