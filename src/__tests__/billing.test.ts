@@ -40,17 +40,20 @@ describe("billing tools", () => {
     tools = captureTools(client);
   });
 
-  it("saperly_get_balance returns formatted balance with rates", async () => {
+  it("saperly_get_balance returns formatted balance with rates (cents-honest USD)", async () => {
     vi.mocked(client.billing.balance).mockResolvedValueOnce({
       credits: 485,
-      currency: "credits",
+      currency: "USD",
     });
 
     const result = await tools["saperly_get_balance"]({});
 
-    expect(result.content[0].text).toContain("485 credits");
-    expect(result.content[0].text).toContain("60 credits/min");
-    expect(result.content[0].text).toContain("100 credits/min");
+    expect(result.content[0].text).toContain("$4.85");
+    expect(result.content[0].text).toContain("485 cents");
+    expect(result.content[0].text).toContain("$0.13/min");
+    expect(result.content[0].text).toContain("$0.26/min");
+    expect(result.content[0].text).toContain("$2.50/month");
+    expect(result.content[0].text).toContain("credits never expire");
     expect(result.isError).toBeUndefined();
   });
 
@@ -62,20 +65,20 @@ describe("billing tools", () => {
     const result = await tools["saperly_get_balance"]({});
 
     expect(result.content[0].text).toContain("not available yet");
-    expect(result.content[0].text).toContain("1,800 starter credits");
+    expect(result.content[0].text).toContain("$5 in starter credits");
+    expect(result.content[0].text).toContain("38 min webhook");
     expect(result.isError).toBeUndefined();
   });
 
-  it("saperly_add_funds returns checkout url", async () => {
-    vi.mocked(client.billing.addFunds).mockResolvedValueOnce({
-      checkoutUrl: "https://checkout.stripe.com/pay/abc123",
-    });
-
+  it("saperly_add_funds returns deprecation message (endpoint removed v0.5.2.0)", async () => {
     const result = await tools["saperly_add_funds"]({ amount_credits: 12000 });
 
-    expect(result.content[0].text).toContain("https://checkout.stripe.com/pay/abc123");
-    expect(result.content[0].text).toContain("12000 credits");
+    expect(result.content[0].text).toContain("removed");
+    expect(result.content[0].text).toContain("postpaid");
+    expect(result.content[0].text).toContain("https://app.saperly.com/billing");
     expect(result.isError).toBeUndefined();
+    // SDK addFunds is no longer called — endpoint is gone, so the tool short-circuits.
+    expect(client.billing.addFunds).not.toHaveBeenCalled();
   });
 
   it("saperly_list_transactions returns formatted list", async () => {
@@ -98,8 +101,9 @@ describe("billing tools", () => {
 
     const result = await tools["saperly_list_transactions"]({});
 
-    expect(result.content[0].text).toContain("+500 credits");
+    expect(result.content[0].text).toContain("+$5.00");
     expect(result.content[0].text).toContain("signup credit");
+    expect(result.content[0].text).toContain("bal: $5.00");
     expect(result.isError).toBeUndefined();
   });
 
@@ -123,7 +127,8 @@ describe("billing tools", () => {
 
     const result = await tools["saperly_list_transactions"]({});
 
-    expect(result.content[0].text).toContain("-50 credits");
+    expect(result.content[0].text).toContain("-$0.50");
+    expect(result.content[0].text).toContain("bal: $4.50");
     expect(result.content[0].text).toContain("2025-12-31T00:00:00Z");
   });
 

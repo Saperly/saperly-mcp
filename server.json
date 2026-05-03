@@ -18,7 +18,7 @@
       "environmentVariables": [
         {
           "name": "SAPERLY_API_KEY",
-          "description": "Your Saperly API key (sk_live_... or sk_test_...). Get one at https://saperly.com/portal — 1,800 free credits on signup (~30 min webhook).",
+          "description": "Your Saperly API key (sk_live_... or sk_test_...). Get one at https://saperly.com/portal — $5 free signup credit (never expires; ~38 min webhook voice).",
           "isRequired": true,
           "isSecret": true
         },

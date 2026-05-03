@@ -85,7 +85,7 @@ describe("account tools", () => {
     });
     vi.mocked(client.billing.balance).mockResolvedValueOnce({
       credits: 485,
-      currency: "credits",
+      currency: "USD",
     });
     vi.mocked(client.usage.daily).mockResolvedValueOnce({
       daily: [
