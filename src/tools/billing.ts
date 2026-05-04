@@ -51,7 +51,7 @@ export function registerBillingTools(server: McpServer, client: Saperly) {
 
   server.tool(
     "saperly_list_transactions",
-    "list recent billing transactions: credits, charges, refunds. shows amount, type, and running balance.",
+    "list recent billing transactions in USD: signup credit, postpaid charges, refunds, number fees, call/SMS charges. shows amount, type, and running balance (all dollars).",
     {
       limit: z
         .number()
