@@ -9,6 +9,7 @@ import {
   CallInProgressError,
   CallNotActiveError,
   InsufficientCreditsError,
+  PaymentMethodRequiredError,
   NumberOptedOutError,
 } from "@saperly/sdk";
 
@@ -42,6 +43,9 @@ function formatError(err: unknown): string {
   }
   if (err instanceof InsufficientCreditsError) {
     return `insufficient credits: ${err.message}. check balance with saperly_get_balance.`;
+  }
+  if (err instanceof PaymentMethodRequiredError) {
+    return `payment method required: ${err.message} add a card in the Saperly portal at https://saperly.com/billing#payment-method, then retry with a NEW Idempotency-Key (the original 402 is sticky-cached for ~12h).`;
   }
   if (err instanceof NumberOptedOutError) {
     return `number opted out: ${err.message}`;
