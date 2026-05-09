@@ -44,7 +44,7 @@
     { "name": "saperly_webhook_deliveries", "group": "webhooks", "description": "list recent webhook delivery attempts. shows status, duration, errors for each delivery." },
     { "name": "saperly_webhook_stats", "group": "webhooks", "description": "get aggregate webhook delivery statistics." },
     { "name": "saperly_webhook_test", "group": "webhooks", "description": "send a test webhook to a line's configured URL." },
-    { "name": "saperly_send_sms", "group": "messages", "description": "reply to an SMS conversation. only works within 24 hours of receiving an inbound SMS from the recipient." },
+    { "name": "saperly_send_sms", "group": "messages", "description": "send an outbound SMS. requires either an inbound SMS from the recipient within the last 24 hours, OR active explicit_outbound consent on file for that (line, recipient) pair (e.g. recorded via POST /v1/consent or a web-form opt-in)." },
     { "name": "saperly_list_conversations", "group": "messages", "description": "list SMS conversations grouped by contact. shows most recent message and count." },
     { "name": "saperly_get_conversation", "group": "messages", "description": "get full SMS message history for a conversation with a specific contact." },
     { "name": "saperly_get_usage", "group": "usage", "description": "get usage statistics. shows calls, minutes, SMS counts, and costs by day or month." },
