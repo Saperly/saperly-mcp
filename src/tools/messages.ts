@@ -6,7 +6,7 @@ import { toolResult, toolError } from "./utils.js";
 export function registerMessagesTools(server: McpServer, client: Saperly) {
   server.tool(
     "saperly_send_sms",
-    "reply to an SMS conversation. only works within 24 hours of receiving an inbound SMS from the recipient.",
+    "send an outbound SMS. requires either an inbound SMS from the recipient within the last 24 hours, OR active explicit_outbound consent on file for that (line, recipient) pair (e.g. recorded via POST /v1/consent or a web-form opt-in).",
     {
       lineId: z.string().describe("line id to send from"),
       to: z.string().describe("recipient phone number (E.164, e.g. +14155551234)"),

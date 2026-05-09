@@ -85,7 +85,7 @@ usage: `/calls`
 
 ### /sms
 
-send an SMS reply within a conversation.
+send an outbound SMS. requires either an inbound SMS from the recipient within the last 24 hours, OR an active `explicit_outbound` consent record on file for that (line, recipient) pair (recorded via `POST /v1/consent` or a documented web-form opt-in).
 
 usage: `/sms +14155551234 Thanks for reaching out!`
 
