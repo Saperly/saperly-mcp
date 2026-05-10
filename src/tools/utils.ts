@@ -11,6 +11,10 @@ import {
   InsufficientCreditsError,
   PaymentMethodRequiredError,
   NumberOptedOutError,
+  AgentScopeError,
+  AgentCapExceededError,
+  AgentPermissionDeniedError,
+  M3FraudBlockError,
 } from "@saperly/sdk";
 
 function formatError(err: unknown): string {
@@ -49,6 +53,27 @@ function formatError(err: unknown): string {
   }
   if (err instanceof NumberOptedOutError) {
     return `number opted out: ${err.message}`;
+  }
+  if (err instanceof AgentCapExceededError) {
+    const detail = err.details
+      .map((d) => `${d.field ? `${d.field}=` : ""}${d.message}`)
+      .join(", ");
+    return `agent cap exceeded: ${err.message}${detail ? ` (${detail})` : ""}. raise the cap or wait for the cycle to reset.`;
+  }
+  if (err instanceof AgentScopeError) {
+    const detail = err.details
+      .map((d) => `${d.field ? `${d.field}=` : ""}${d.message}`)
+      .join(", ");
+    return `agent scope error: ${err.message}${detail ? ` (${detail})` : ""}. this key is restricted to a specific line.`;
+  }
+  if (err instanceof AgentPermissionDeniedError) {
+    const detail = err.details
+      .map((d) => `${d.field ? `${d.field}=` : ""}${d.message}`)
+      .join(", ");
+    return `agent permission denied: ${err.message}${detail ? ` (${detail})` : ""}. this key's tier doesn't permit this operation.`;
+  }
+  if (err instanceof M3FraudBlockError) {
+    return `request blocked by fraud heuristic: ${err.message}. contact support if this is unexpected.`;
   }
   if (err instanceof SaperlyError) {
     return `api error (${err.code}): ${err.message}`;
