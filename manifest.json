@@ -50,6 +50,7 @@
     { "name": "saperly_get_usage", "group": "usage", "description": "get usage statistics. shows calls, minutes, SMS counts, and costs by day or month." },
     { "name": "saperly_get_settings", "group": "settings", "description": "get your account settings. currently shows default webhook URL." },
     { "name": "saperly_update_settings", "group": "settings", "description": "update account settings. set or clear the default webhook URL used for new lines." },
-    { "name": "saperly_list_voices", "group": "voices", "description": "list available TTS voices for hosted-mode calls. use the voice id when creating or updating a line." }
+    { "name": "saperly_list_voices", "group": "voices", "description": "list available TTS voices for hosted-mode calls. use the voice id when creating or updating a line." },
+    { "name": "saperly_audit_list", "group": "audit", "description": "list recent activity stamped to your api key (calls, sms, compliance events, billing transactions). agent-self audit feed; default scope is the caller's own key. time-sorted DESC, max 500 events per call." }
   ]
 }
