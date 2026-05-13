@@ -19,7 +19,8 @@
     { "name": "messages", "description": "SMS conversations and replies" },
     { "name": "usage", "description": "Call minute, SMS, cost aggregates" },
     { "name": "settings", "description": "Account configuration" },
-    { "name": "voices", "description": "TTS voices for hosted-mode calls" }
+    { "name": "voices", "description": "TTS voices for hosted-mode calls" },
+    { "name": "keys", "description": "Manage child API keys minted from a service key" }
   ],
   "tools": [
     { "name": "saperly_create_line", "group": "lines", "description": "provision a new phone line for your ai agent. returns the assigned phone number. mode: webhook (S2T+T2S via your HTTP webhook, bring your own AI), audio (raw websocket stream), or hosted (saperly runs the AI, requires systemPrompt)." },
@@ -50,6 +51,13 @@
     { "name": "saperly_get_usage", "group": "usage", "description": "get usage statistics. shows calls, minutes, SMS counts, and costs by day or month." },
     { "name": "saperly_get_settings", "group": "settings", "description": "get your account settings. currently shows default webhook URL." },
     { "name": "saperly_update_settings", "group": "settings", "description": "update account settings. set or clear the default webhook URL used for new lines." },
-    { "name": "saperly_list_voices", "group": "voices", "description": "list available TTS voices for hosted-mode calls. use the voice id when creating or updating a line." }
+    { "name": "saperly_list_voices", "group": "voices", "description": "list available TTS voices for hosted-mode calls. use the voice id when creating or updating a line." },
+    { "name": "saperly_audit_list", "group": "audit", "description": "list recent activity stamped to your api key (calls, sms, compliance events, billing transactions). agent-self audit feed; default scope is the caller's own key. time-sorted DESC, max 500 events per call." },
+    { "name": "saperly_key_create", "group": "keys", "description": "mint a new child api key. requires service-key auth. returns plaintext ONCE." },
+    { "name": "saperly_key_list", "group": "keys", "description": "list child api keys minted by the service key. metadata only." },
+    { "name": "saperly_key_get", "group": "keys", "description": "retrieve a single child api key by id. metadata only." },
+    { "name": "saperly_key_update", "group": "keys", "description": "update label, scope, permissions, or cap on a child api key." },
+    { "name": "saperly_key_delete", "group": "keys", "description": "soft-revoke a child api key. DESTRUCTIVE. requires confirm=true." },
+    { "name": "saperly_key_rotate", "group": "keys", "description": "atomic rotate: revoke old + mint new. returns new plaintext ONCE. DESTRUCTIVE." }
   ]
 }

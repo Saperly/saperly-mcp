@@ -11,6 +11,14 @@ import {
   InsufficientCreditsError,
   PaymentMethodRequiredError,
   NumberOptedOutError,
+  AgentScopeError,
+  AgentCapExceededError,
+  AgentPermissionDeniedError,
+  M3FraudBlockError,
+  IdempotencyKeyReusedError,
+  IdempotencyInProgressError,
+  MissingIdempotencyKeyError,
+  RateLimitedError,
 } from "@saperly/sdk";
 
 function formatError(err: unknown): string {
@@ -49,6 +57,39 @@ function formatError(err: unknown): string {
   }
   if (err instanceof NumberOptedOutError) {
     return `number opted out: ${err.message}`;
+  }
+  if (err instanceof AgentCapExceededError) {
+    const detail = err.details
+      .map((d) => `${d.field ? `${d.field}=` : ""}${d.message}`)
+      .join(", ");
+    return `agent cap exceeded: ${err.message}${detail ? ` (${detail})` : ""}. raise the cap or wait for the cycle to reset.`;
+  }
+  if (err instanceof AgentScopeError) {
+    const detail = err.details
+      .map((d) => `${d.field ? `${d.field}=` : ""}${d.message}`)
+      .join(", ");
+    return `agent scope error: ${err.message}${detail ? ` (${detail})` : ""}. this key is restricted to a specific line.`;
+  }
+  if (err instanceof AgentPermissionDeniedError) {
+    const detail = err.details
+      .map((d) => `${d.field ? `${d.field}=` : ""}${d.message}`)
+      .join(", ");
+    return `agent permission denied: ${err.message}${detail ? ` (${detail})` : ""}. this key's tier doesn't permit this operation.`;
+  }
+  if (err instanceof M3FraudBlockError) {
+    return `request blocked by fraud heuristic: ${err.message}. contact support if this is unexpected.`;
+  }
+  if (err instanceof IdempotencyKeyReusedError) {
+    return `idempotency key reused with a different body: ${err.message}. use a NEW Idempotency-Key for the new request.`;
+  }
+  if (err instanceof IdempotencyInProgressError) {
+    return `request with this Idempotency-Key is still in progress: ${err.message}. retry shortly.`;
+  }
+  if (err instanceof MissingIdempotencyKeyError) {
+    return `missing Idempotency-Key header: ${err.message}. the SDK auto-generates one — this surface only if a caller bypasses the SDK.`;
+  }
+  if (err instanceof RateLimitedError) {
+    return `rate limited: ${err.message}. respect the Retry-After header.`;
   }
   if (err instanceof SaperlyError) {
     return `api error (${err.code}): ${err.message}`;

@@ -6,6 +6,7 @@ import { registerLinesTools } from "./tools/lines.js";
 import { registerCallsTools } from "./tools/calls.js";
 import { registerConsentTools } from "./tools/consent.js";
 import { registerComplianceTools } from "./tools/compliance.js";
+import { registerAuditTools } from "./tools/audit.js";
 import { registerDisclosureTools } from "./tools/disclosures.js";
 import { registerBillingTools } from "./tools/billing.js";
 import { registerAccountTools } from "./tools/account.js";
@@ -14,6 +15,7 @@ import { registerMessagesTools } from "./tools/messages.js";
 import { registerUsageTools } from "./tools/usage.js";
 import { registerSettingsTools } from "./tools/settings.js";
 import { registerVoicesTools } from "./tools/voices.js";
+import { registerKeysTools } from "./tools/keys.js";
 
 const apiKey = process.env.SAPERLY_API_KEY;
 if (!apiKey) {
@@ -39,6 +41,7 @@ registerLinesTools(server, client);
 registerCallsTools(server, client);
 registerConsentTools(server, client);
 registerComplianceTools(server, client);
+registerAuditTools(server, client);
 registerDisclosureTools(server, client);
 registerBillingTools(server, client);
 registerAccountTools(server, client);
@@ -47,6 +50,7 @@ registerMessagesTools(server, client);
 registerUsageTools(server, client);
 registerSettingsTools(server, client);
 registerVoicesTools(server, client);
+registerKeysTools(server, client);
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
