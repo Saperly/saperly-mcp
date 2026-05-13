@@ -15,6 +15,7 @@ import { registerMessagesTools } from "./tools/messages.js";
 import { registerUsageTools } from "./tools/usage.js";
 import { registerSettingsTools } from "./tools/settings.js";
 import { registerVoicesTools } from "./tools/voices.js";
+import { registerKeysTools } from "./tools/keys.js";
 
 const apiKey = process.env.SAPERLY_API_KEY;
 if (!apiKey) {
@@ -49,6 +50,7 @@ registerMessagesTools(server, client);
 registerUsageTools(server, client);
 registerSettingsTools(server, client);
 registerVoicesTools(server, client);
+registerKeysTools(server, client);
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
