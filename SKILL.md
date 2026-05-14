@@ -42,14 +42,15 @@ $5 free signup credit, enough for a phone number for 2 months OR ~38 minutes of 
 
 ## commands
 
+These are user-facing shortcuts. When you handle one, translate it into the underlying MCP tool call with appropriate arguments. The tool schemas have required fields (e.g. `saperly_create_line` requires `name`, `saperly_create_call` requires both `lineId` and `toNumber`); generate sensible defaults or look up missing context from prior tool calls before calling the tool.
+
 ### /buy-number
 
 provision a webhook-mode phone line for your agent.
 
 usage: `/buy-number`
 
-creates a line with mode "webhook" and a default webhook url.
-shows the provisioned phone number.
+invoke `saperly_create_line` with `mode: "webhook"` and a generated `name` (e.g. "my agent" or pick from context). shows the provisioned phone number.
 
 ### /call
 
@@ -57,9 +58,7 @@ make an outbound call to a phone number.
 
 usage: `/call +14155551234`
 
-automatically grants consent if needed, then initiates the call.
-the phone will ring. in webhook mode, saperly handles speech-to-text
-and text-to-speech, your agent just sees text via the webhook.
+invoke `saperly_create_call` with `lineId` (the line from a prior `/buy-number` or `saperly_list_lines`; if none, run `/buy-number` first) and `toNumber: "+14155551234"`. automatically grants consent if needed, then initiates the call. the phone will ring. in webhook mode, saperly handles speech-to-text and text-to-speech, your agent just sees text via the webhook.
 
 ### /conversation-call
 
@@ -67,6 +66,8 @@ make an AI phone call where saperly handles the LLM. no webhook needed.
 returns the full transcript when the call ends.
 
 usage: `/conversation-call +14155551234 schedule a demo for next tuesday`
+
+invoke `saperly_create_conversation_call` with `lineId`, `toNumber: "+14155551234"`, and the prompt as `systemPrompt`.
 
 ### /lines
 
@@ -91,6 +92,8 @@ usage: `/calls`
 send an outbound SMS. requires either an inbound SMS from the recipient within the last 24 hours, OR an active `explicit_outbound` consent record on file for that (line, recipient) pair (recorded via `POST /v1/consent` or a documented web-form opt-in).
 
 usage: `/sms +14155551234 Thanks for reaching out!`
+
+invoke `saperly_send_sms` with `lineId`, `to: "+14155551234"`, and `text: "Thanks for reaching out!"`.
 
 ### /conversations
 
@@ -177,7 +180,7 @@ daily usage:
   2026-04-07  1 calls  5 min  $0.65
 
 > /voices
-4 voice(s):
+2 voice(s):
 
   nova  Nova  female  american  conversational
   echo  Echo  male  american  warm

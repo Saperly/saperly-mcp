@@ -127,7 +127,7 @@ Call `saperly_key_rotate`:
 The MCP server sets these on every outbound call to the Saperly API; you do not set them yourself, but the rules still matter for understanding errors.
 
 - `Authorization: Bearer <key>`: derived from `SAPERLY_API_KEY` at server startup.
-- `Idempotency-Key: <uuid>`: required on `POST /v1/keys` and `POST /v1/keys/{id}/rotate`. No tool argument is exposed for it; the underlying SDK auto-generates a UUID v4 on every key mint and rotate. Recommended on `POST /v1/calls` and `POST /v1/messages` (also handled by the SDK automatically).
+- `Idempotency-Key: <uuid>`: required on `POST /v1/keys` and `POST /v1/keys/{id}/rotate`. No tool argument is exposed for it; the underlying SDK auto-generates a UUID v4 on every key mint and rotate. The header is also recommended on `POST /v1/calls` and `POST /v1/messages` for replay safety, but the MCP server does not currently send one for those endpoints; treat retries of those tool calls as not-yet-idempotent and dedupe on the server side if needed.
 - `Content-Type: application/json`: set automatically by the server.
 
 ## 7. Common pitfalls

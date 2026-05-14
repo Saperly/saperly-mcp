@@ -65,7 +65,8 @@ describe("usage tools", () => {
     expect(result.content[0].text).toContain("daily usage:");
     expect(result.content[0].text).toContain("2026-04-08");
     expect(result.content[0].text).toContain("3 calls");
-    expect(result.content[0].text).toContain("132 credits");
+    // 132 cents in the API response renders as $1.32 (cents-honest USD, v0.5.3+)
+    expect(result.content[0].text).toContain("$1.32");
     expect(result.content[0].text).toContain("2026-04-07");
     expect(result.isError).toBeUndefined();
     expect(client.usage.daily).toHaveBeenCalledWith({ days: 7 });
@@ -92,7 +93,8 @@ describe("usage tools", () => {
     expect(result.content[0].text).toContain("monthly usage:");
     expect(result.content[0].text).toContain("2026-04");
     expect(result.content[0].text).toContain("25 calls");
-    expect(result.content[0].text).toContain("1320 credits");
+    // 1320 cents in the API response renders as $13.20 (cents-honest USD, v0.5.3+)
+    expect(result.content[0].text).toContain("$13.20");
     expect(result.isError).toBeUndefined();
     expect(client.usage.monthly).toHaveBeenCalledWith({ months: 3 });
   });
