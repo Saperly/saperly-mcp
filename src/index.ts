@@ -34,7 +34,7 @@ const client = new Saperly({
 
 const server = new McpServer({
   name: "saperly",
-  version: "0.1.0",
+  version: "0.3.0",
 });
 
 registerLinesTools(server, client);

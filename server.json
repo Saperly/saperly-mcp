@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-16/server.schema.json",
-  "name": "io.github.idanbier999/saperly",
+  "name": "io.github.Saperly/saperly-mcp",
   "description": "Phone carrier for AI agents. Provision numbers, make calls, send SMS, TCPA compliance built-in.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "repository": {
-    "url": "https://github.com/idanbier999/Saperly",
+    "url": "https://github.com/Saperly/saperly-mcp",
     "source": "github"
   },
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@saperly/mcp",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "transport": {
         "type": "stdio"
       },

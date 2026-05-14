@@ -36,7 +36,7 @@ describe("saperly_delete_line removal", () => {
     expect(anyDeleteLineTool).toBeUndefined();
   });
 
-  it("manifest.version === 0.2.0 (breaking-removal minor bump)", () => {
-    expect(manifest.version).toBe("0.2.0");
+  it("manifest.version === 0.3.0 (v0.5.7.0 agent-native key management)", () => {
+    expect(manifest.version).toBe("0.3.0");
   });
 });

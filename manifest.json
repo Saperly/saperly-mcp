@@ -1,6 +1,6 @@
 {
   "name": "saperly",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Phone carrier for AI agents. Provision phone numbers, place and receive calls, manage TCPA compliance and consent, track usage and billing.",
   "homepage": "https://saperly.com",
   "documentation": "https://docs.saperly.com",
@@ -20,7 +20,8 @@
     { "name": "usage", "description": "Call minute, SMS, cost aggregates" },
     { "name": "settings", "description": "Account configuration" },
     { "name": "voices", "description": "TTS voices for hosted-mode calls" },
-    { "name": "keys", "description": "Manage child API keys minted from a service key" }
+    { "name": "keys", "description": "Manage child API keys minted from a service key" },
+    { "name": "audit", "description": "Unified audit feed: calls, SMS, compliance events, and billing scoped to the caller's key" }
   ],
   "tools": [
     { "name": "saperly_create_line", "group": "lines", "description": "provision a new phone line for your ai agent. returns the assigned phone number. mode: webhook (S2T+T2S via your HTTP webhook, bring your own AI), audio (raw websocket stream), or hosted (saperly runs the AI, requires systemPrompt)." },
