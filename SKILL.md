@@ -2,15 +2,16 @@
 name: saperly
 description: >
   give your ai agent a phone number. provision lines, make calls,
-  check compliance — all from claude code. saperly is the phone
+  check compliance, all from claude code. saperly is the phone
   carrier for ai agents.
 ---
 
 # saperly
 
 saperly gives ai agents real phone numbers with built-in compliance.
-text mode: your webhook gets transcribed text, responds with text.
-audio mode: raw audio via websocket for voice-native ai.
+webhook mode: your backend gets transcribed text and decides the response.
+hosted mode: saperly runs the ai for you. audio mode: raw audio via websocket
+for voice-native ai.
 
 ## setup
 
@@ -20,8 +21,10 @@ set your api key:
 export SAPERLY_API_KEY=sk_live_...
 ```
 
-get your key at https://saperly.com/portal.
-$5 free signup credit — enough for a phone number for 2 months OR ~38 minutes of webhook-mode calls (or ~19 min hosted). Credits never expire.
+get your key at https://saperly.com/settings/keys.
+$5 free signup credit, enough for a phone number for 2 months OR ~38 minutes of webhook-mode calls (or ~19 min hosted). Credits never expire.
+
+> Key management tools (`saperly_key_*`) require a service key (`sk_svc_test_...` or `sk_svc_live_...`), not an API key. Mint one in the portal at Settings → Service Keys.
 
 ### claude desktop config
 
@@ -41,11 +44,11 @@ $5 free signup credit — enough for a phone number for 2 months OR ~38 minutes 
 
 ### /buy-number
 
-provision a text-mode phone line for your agent.
+provision a webhook-mode phone line for your agent.
 
 usage: `/buy-number`
 
-creates a line with mode "text" and a default webhook url.
+creates a line with mode "webhook" and a default webhook url.
 shows the provisioned phone number.
 
 ### /call
@@ -55,8 +58,8 @@ make an outbound call to a phone number.
 usage: `/call +14155551234`
 
 automatically grants consent if needed, then initiates the call.
-the phone will ring. if text mode, saperly handles speech-to-text
-and text-to-speech — your agent just sees text.
+the phone will ring. in webhook mode, saperly handles speech-to-text
+and text-to-speech, your agent just sees text via the webhook.
 
 ### /conversation-call
 
@@ -103,7 +106,7 @@ usage: `/conversation <line-id> +14155551234`
 
 ### /balance
 
-check your account credit balance and per-second rates.
+check your account balance and per-second rates.
 
 usage: `/balance`
 
@@ -134,7 +137,7 @@ line created!
 phone: +14155550123
 id: line-abc123
 name: unnamed
-mode: text
+mode: webhook
 status: active
 
 > /call +14155551234
@@ -182,7 +185,7 @@ daily usage:
 > /lines
 1 line(s):
 
-  +14155550123  text  active  "unnamed"
+  +14155550123  webhook  active  "unnamed"
 
 > /balance
 balance: $3.13
@@ -192,8 +195,8 @@ balance: $3.13
 
 saperly is a phone carrier for ai agents. three modes:
 
-**text mode:** caller speaks -> saperly transcribes -> posts to your webhook ->
-you respond with text -> saperly speaks it -> caller hears. $0.13/min Zone A (US/CA), billed per second.
+**webhook mode:** caller speaks, saperly transcribes, posts to your webhook,
+you respond with text, saperly speaks it, caller hears. $0.13/min Zone A (US/CA), billed per second.
 
 **audio mode:** raw audio streams to your websocket. you handle s2t/t2s. $0.13/min Zone A (US/CA), billed per second.
 
@@ -203,7 +206,9 @@ or configure a line with a system prompt.
 
 ## resources
 
-- https://saperly.com/docs/quickstart
-- https://saperly.com/docs/api-reference
-- https://saperly.com/docs/text-mode
-- https://saperly.com/docs/compliance
+- https://docs.saperly.com/quickstart
+- https://docs.saperly.com/api-reference
+- https://docs.saperly.com/agent-onboarding
+- https://docs.saperly.com/service-keys
+- https://docs.saperly.com/guides/webhook-mode
+- https://docs.saperly.com/guides/compliance-and-consent

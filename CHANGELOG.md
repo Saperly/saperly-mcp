@@ -13,7 +13,7 @@ All notable changes to the Saperly MCP server. Versions follow the platform rele
 ### Changed
 
 - All billing copy migrated from credits to USD cents (cents-honest since v0.5.3).
-- `saperly_add_funds` is a deprecated stub. Manual top-up was removed in v0.5.2.0; Saperly is postpaid and auto-charges the saved card on file. Direct users to https://saperly.com/billing.
+- `saperly_add_funds` is a deprecated stub. Manual top-up was removed in v0.5.2.0; Saperly is postpaid and auto-charges the saved card on file. Direct users to https://app.saperly.com/billing.
 
 ## [0.2.0] (2026-04-19) mode rename and delete-line removal
 

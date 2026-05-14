@@ -87,7 +87,7 @@ Call `saperly_create_call`:
 
 ```json
 {
-  "lineId": "line_xyz",
+  "lineId": "550e8400-e29b-41d4-a716-446655440000",
   "toNumber": "+14155551234"
 }
 ```
