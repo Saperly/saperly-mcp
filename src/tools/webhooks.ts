@@ -9,7 +9,7 @@ export function registerWebhookTools(server: McpServer, client: Saperly) {
     "list recent webhook delivery attempts. shows status, duration, errors for each delivery.",
     {
       lineId: z.string().optional().describe("filter by line id"),
-      eventType: z.string().optional().describe("filter: call_started, message, call_ended, sms_received, test"),
+      eventType: z.string().optional().describe("filter: call_started, message, call_ended, sms_received, test, interrupted"),
       status: z.string().optional().describe("filter: success, failed"),
       limit: z.number().optional().describe("max results (default 50, max 100)"),
       offset: z.number().optional().describe("pagination offset"),
