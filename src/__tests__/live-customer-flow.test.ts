@@ -94,6 +94,8 @@ describe("v0.5.3 live customer flow (MCP tool surface)", () => {
       beginMessage: null,
       voice: null,
       contextLimit: null,
+      language: "multi",
+      endpointingMs: null,
       recordingEnabled: false,
       complianceEnabled: true,
       status: "active",

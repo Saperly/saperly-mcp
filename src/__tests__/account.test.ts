@@ -55,6 +55,8 @@ describe("account tools", () => {
         beginMessage: null,
         voice: null,
         contextLimit: null,
+        language: "multi",
+        endpointingMs: null,
         recordingEnabled: false,
         complianceEnabled: true,
         status: "active",
